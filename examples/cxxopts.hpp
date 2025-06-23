@@ -37,6 +37,8 @@ THE SOFTWARE.
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <cstdint>
+#include <limits>
 
 namespace cxxopts
 {
