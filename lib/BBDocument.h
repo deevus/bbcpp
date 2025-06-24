@@ -73,7 +73,7 @@ class BBNode : public std::enable_shared_from_this<BBNode>
         }
 
         return newobj;
-    }   
+    }
 
     template<typename NewTypePtrT>
     NewTypePtrT cast(BBNodePtr node, bool bThrowOnFail) const
@@ -95,13 +95,13 @@ class BBNode : public std::enable_shared_from_this<BBNode>
         }
 
         return newobj;
-    }      
-        
+    }
+
 public:
     enum class NodeType
     {
-        DOCUMENT,   
-        ELEMENT,    // [b]bold[/b], [QUOTE], [QUOTE=Username;1234], [QUOTE user=Bob] 
+        DOCUMENT,
+        ELEMENT,    // [b]bold[/b], [QUOTE], [QUOTE=Username;1234], [QUOTE user=Bob]
         TEXT,       // plain text
         ATTRIBUTE
     };
@@ -132,7 +132,7 @@ public:
 	{
 		return cast<NewTypePtrT>(shared_from_this(), bThrowOnFail);
 	}
-  
+
 protected:
     std::string     _name;
     NodeType        _nodeType;
@@ -209,7 +209,7 @@ private:
 
 class BBDocument : public BBNode
 {
-    BBDocument() 
+    BBDocument()
         : BBNode(BBNode::NodeType::DOCUMENT, "#document")
     {
         // nothing to do
@@ -299,9 +299,10 @@ class BBDocument : public BBNode
              }
              else if (*it == ':' || *it == '/' || *it == '.' || *it == '&'
                       || *it == '?' || *it == '$' || *it == '-' || *it == '+'
-                      || *it == '*' || *it == '(' || *it == ')' || *it == ',')
+                      || *it == '*' || *it == '(' || *it == ')' || *it == ','
+                      || *it == '@' || *it == '_')
              {
-                 //is url
+                 //is url or email
                  temp << *it;
              }
              else
@@ -445,7 +446,7 @@ class BBDocument : public BBNode
             // possibly a QUOTE value element
             // possibly key-value pairs of a QUOTE
             ParameterMap pairs;
-            
+
             auto kvEnd = parseKeyValuePairs(nameStart, end, pairs);
             if (pairs.size() == 0)
             {
@@ -497,7 +498,7 @@ class BBDocument : public BBNode
         return std::next(nameEnd);
     }
 
-public: 
+public:
     static BBDocumentPtr create()
     {
         BBDocumentPtr doc = BBDocumentPtr(new BBDocument());
@@ -534,7 +535,7 @@ public:
                     bUnknownNodeType = false;
                 }
             }
-            
+
             if (!bUnknownNodeType)
             {
                 switch (nodeType)
@@ -565,7 +566,7 @@ public:
                             bUnknownNodeType = true;
                         }
                     }
-                    break;                    
+                    break;
                 }
             }
         }
@@ -601,5 +602,5 @@ std::ostream& operator<<(std::ostream& os, const ParameterMap& params)
 }
 
 
-    
+
 } // namespace
